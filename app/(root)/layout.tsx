@@ -7,7 +7,8 @@ import React, { ReactNode } from 'react'
 const RootLayout = async ({children}:{children:ReactNode}) => {
   const isAuthenticated=await isAutheticated();
 
-  if(!isAuthenticated) redirect('/sign-in')
+if (isAuthenticated) redirect("/");
+
   return (
     <div className='root-layout'>
       <nav>
