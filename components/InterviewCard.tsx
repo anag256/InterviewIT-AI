@@ -5,10 +5,11 @@ import { cn, getRandomInterviewCover } from '@/lib/utils';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import DisplayTechIcons from './DisplayTechIcons';
+import { getFeedbackByInterviewId } from '@/lib/actions/general.actions';
 
-const InterviewCard = ({id,userId,role,type,techstack,createdAt}:InterviewCardProps) => {
+const InterviewCard = async({id,userId,role,type,techstack,createdAt}:InterviewCardProps) => {
 
-  const feedback=null as Feedback | null;
+  const feedback= await getFeedbackByInterviewId({interviewId:id,userId:userId || process.env.DEFAULT_GUEST_ID}) ;
   const normalizedType=/mix/gi.test(type) ?'Mixed' : type;
   const formattedDate=dayjs(feedback?.createdAt  || createdAt || Date.now()).format('MMM D,YYYY');
   const badgeColor =
@@ -17,7 +18,7 @@ const InterviewCard = ({id,userId,role,type,techstack,createdAt}:InterviewCardPr
     Mixed: "bg-light-600",
     Technical: "bg-light-800",
   }[normalizedType] || "bg-light-600";
-
+console.log("feeedback in interview card",feedback,userId,id)
   return (
     <div className='card-border w-[360px] max-sm:w-full min-h-96'>
         <div className='card-interview'>

@@ -82,7 +82,7 @@ export async function getCurrentUser(): Promise<User | null> {
     if (!userRecord.exists) return null;
     return {
       ...userRecord.data(),
-      id: userRecord.id,
+      id: userRecord.id || process.env.DEFAULT_GUEST_ID,
     } as User;
   } catch (error) {
     console.error(error);
