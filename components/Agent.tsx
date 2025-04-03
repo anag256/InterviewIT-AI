@@ -68,7 +68,7 @@ const handleCall=async()=>{
   await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!,{
     variableValues:{
       username:userName,
-      userid:userId,
+      userid:userId || process.env.DEFAULT_GUEST_ID,
     }
   });
 
@@ -135,9 +135,12 @@ const isCallInactiveorFinished=callStatus===CallStatus.INACTIVE ||  CallStatus.F
             />
 
             <span className="relative">
-              {isCallInactiveorFinished
+              {isCallInactiveorFinished && callStatus!=='CONNECTING'
                 ? "Call"
                 : ". . ."}
+                {
+                 callStatus==='CONNECTING' && " Connecting..."
+                }
             </span>
           </button>
         ) : (
